@@ -22,6 +22,8 @@ class Persona
 		string getContra();
 		string getMensaje(int);
 		
+		void addMensaje(string );
+		
 	
 		
 		~Persona();

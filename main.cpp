@@ -3,10 +3,25 @@
 #include <iostream>
 #include <bits/stdc++.h>
 #include <string>
-#include "Persona.h"
+//#include "Persona.h"
+#include "Persona.cpp"
+#include <stdlib.h> 
+#include <time.h>
 
 
 using namespace std;
+
+void Enviar_mensaje (Persona* mensajero, Persona* receptor){
+	string mensaje ;
+	string enviador = mensajero->getNombre();
+	cout<<"Escriba que mensaje quiere enviar :"<<endl ;
+	//getline(cin,mensaje);
+	cin>> mensaje;
+	mensaje+="\n ";
+	mensaje +=enviador;
+	receptor->addMensaje(mensaje);
+	cout<< "Mensaje Enviado !"<< endl;
+}
 
 int main (){
 	int respuesta=0 ;
@@ -29,10 +44,14 @@ int main (){
 				cin>> nombre;
 				cout<<"Ingrese su apellido"<<endl;
 				cin >> apellido;
-				cout<<"Ingrese su llave"<<endl;
-				cin >> llave;
+//				cout<<"Ingrese su llave"<<endl;
+//				cin >> llave;
 				cout<<"Ingrese su contrasena"<<endl;
 				cin >> contra;
+				
+				srand(time(NULL));
+				llave = 1+rand()%(16-1);
+				
 				Persona* nuevo= NULL; 
 				nuevo = new Persona(llave,nombre,contra,apellido);
 				
@@ -44,8 +63,79 @@ int main (){
 				
 				break;
 			}
+			case 2 : {
+				string nombre;
+				string contra;
+				bool login= false;
+				
+				cout << "Lista de usuarios: "<< vPersonas.size()<<endl;
+				cout <<"Ingrese su nombre : "<<endl;
+				cin>>nombre;
+				cout << "Ingrese su contrasena : "<< endl;
+				cin>> contra ;
+				Persona* usuario_activo = NULL;
+				
+			
+				for (int i = 0 ; i<=vPersonas.size(); i++){
+				//	cout<< "Entre al for";
+				//	cout <<  vPersonas[i]->getNombre()<< endl;
+					
+				//	 cout << vPersonas[i]->getContra();
+					if (nombre == vPersonas[i]->getNombre()){
+						if (contra== vPersonas[i]->getContra()){
+						//	cout<< "entre al if del for";
+							login = true;
+							usuario_activo= vPersonas[i];
+							break;
+							
+						}
+						
+					}
+				}
+				
+				if (login == true ){
+					cout << "Bienvenido: "<<usuario_activo->getNombre() << endl ;
+					int resp_usuario;
+					cout<<"1.- Enviar Mensaje"<< endl ;
+					cout<<"2.- Ver Mensajes "<< endl ;
+					cout <<"3.- Ver mi llave "<< endl ;
+					cout <<"0.- Salir"<< endl ;
+					cin>>resp_usuario;
+					switch(resp_usuario){
+						case 1:{
+							for (int i = 0 ; i<vPersonas.size(); i++){
+								cout << i <<".- " << vPersonas[i]->getNombre()<<endl;
+							}
+							int recibidor ;
+							cin >>recibidor;
+							Persona* receptor = vPersonas[recibidor];
+							
+							Enviar_mensaje(usuario_activo,receptor);
+						
+							break;
+						}
+						case 2 :{
+//							for (int i =0; usuario_activo->){// aquise supone que se iban a ver los mensajes pero ya no me da tiempo
+//								
+//							}
+							
+							break;
+						}
+						case 3:{
+							
+							break;
+						}
+						
+					}
+					
+					
+				}				
+				
+				break;
+			}
 		}
 	}
+	return 0;
 }
 
 /* This is where all the input to the window goes to */
